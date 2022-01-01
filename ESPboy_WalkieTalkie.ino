@@ -21,6 +21,7 @@ ESPboy project: wwww.espboy.com
 #define DEFAULT_CHAN 1
 #define DEFAULT_VOL 8
 #define MAGIC_NO 0x55EE
+#define UPDATING_DELAY 500
 
 
 struct DataStruct{
@@ -39,8 +40,8 @@ float LPDchannel[70]={
 434.325, 434.35, 434.375, 434.4, 434.425, 434.45, 434.475, 434.5, 434.525, 434.55, 
 434.575, 434.6, 434.625, 434.65, 434.675, 434.7, 434.725, 434.75, 434.775};
 
-enum  TR_STATE {MODULE_TRANSMIT, MODULE_RECEIVE} TRstate;
-enum  CR_STATE {CR_YES, CR_NO} CRstate;
+enum  TR_STATE {MODULE_TRANSMIT, MODULE_RECEIVE} TRstate = MODULE_RECEIVE;
+enum  CR_STATE {CR_YES, CR_NO} CRstate = CR_NO;
 bool updateChanFlag = true;
 bool updateUIFlag = true; 
 
@@ -118,7 +119,15 @@ void saveData(){
 
 void moduleInit(){
   ESerial.print("AT+DMOCONNECT\r\n");
-  delay(300);
+  delay(200);
+  if(!checkSerial()){
+    myESPboy.tft.setTextColor(TFT_GREEN);
+    myESPboy.tft.drawString(F("Module init OK"), 23,120);}
+  else{
+    myESPboy.tft.setTextColor(TFT_RED);
+    myESPboy.tft.drawString(F("Module init FAIL"), 15,120);
+    while(1) delay(100);}
+  delay(500);
 };
 
 
@@ -134,7 +143,13 @@ void moduleSetFreq(float frq){
   toSend+="0000";
   toSend+="\r\n";
   ESerial.print(toSend);
-  delay(200);
+  delay(100);
+  if (checkSerial()){
+    myESPboy.tft.fillScreen(TFT_BLACK);
+    myESPboy.tft.setTextColor(TFT_RED);
+    myESPboy.tft.drawString(F("Freq update FAIL"), 16,120);
+    delay(1000);
+  }
 };
 
 
@@ -145,24 +160,39 @@ void moduleSetVol(uint8_t vol){
   toSend+=(String)vol;
   toSend+="\r\n";
   ESerial.print(toSend);
-  delay(200);
+  delay(100);
+  if (checkSerial()){
+    myESPboy.tft.fillScreen(TFT_BLACK);
+    myESPboy.tft.setTextColor(TFT_RED);
+    myESPboy.tft.drawString(F("Vol update FAIL"), 19,120);
+    delay(1000);
+  }
 };
 
 
 uint16_t moduleGetRSSI(){
-  char rssi[20];
-  uint8_t cnt=0;
   ESerial.print("AT+RSSI?\r\n");
   delay(100);
-  while (ESerial.available()) rssi[cnt++]=ESerial.read();
-  rssi[cnt]=0;
-  cnt=0;
-  for(uint8_t i=0; i<strlen(rssi); i++){
-    cnt++;
-    if (rssi[i]=='=') break;
+  String getRSSI = ESerial.readString();
+  getRSSI.trim();
+  getRSSI = getRSSI.substring(getRSSI.length()-3,getRSSI.length());
+  return atoi(getRSSI.c_str());
+}
+
+
+bool checkSerial(){
+ String readSerial;
+ if (ESerial.available()){
+   readSerial = ESerial.readString();
+   readSerial.trim();
+   //Serial.println(readSerial); //debug info to serial
+   if(readSerial[readSerial.length()-1] == '0')
+     return(0);
+   else 
+     return(1);
   }
-  strcpy(&rssi[0], &rssi[cnt]);
-  return (atoi(rssi));
+  else
+    return(1);
 }
 
 
@@ -175,35 +205,16 @@ void setup() {
  myESPboy.mcp.pinMode(PPT_PIN, OUTPUT);
  myESPboy.mcp.digitalWrite(PPT_PIN, HIGH);
  myESPboy.mcp.pinMode(CARRIER_PIN, INPUT); 
+ delay(300);
 
  loadData();
  moduleInit();
-
- if(ESerial.available()) {
-  myESPboy.tft.setTextColor(TFT_GREEN);
-  myESPboy.tft.drawString(F("Module init OK"), 23,120);
- }
- else {
-  myESPboy.tft.setTextColor(TFT_RED);
-  myESPboy.tft.drawString(F("Module init FAIL"), 15,120);
-  while(1) delay(100);}
-
- moduleSetVol(dataStr.vol);
- moduleSetFreq(LPDchannel[dataStr.chan]);
-
- myESPboy.tft.fillScreen(TFT_BLACK);
-
- TRstate = MODULE_RECEIVE;
- CRstate = CR_NO;
 }
 
 
 
 void loop() {
   static uint32_t cnt = millis();
-  
-  if(ESerial.available()){
-    while(ESerial.available()) ESerial.read();/*Serial.write(ESerial.read());*/}
 
   if (!myESPboy.mcp.digitalRead(CARRIER_PIN) && CRstate == CR_NO){
     CRstate = CR_YES;
@@ -236,7 +247,7 @@ void loop() {
   if (myESPboy.getKeys()&PAD_RIGHT && dataStr.vol<8){dataStr.vol++; updateUIFlag=true; delay(100);} 
   if (myESPboy.getKeys()&PAD_LEFT && dataStr.vol>0){dataStr.vol--; updateUIFlag=true; delay(100);} 
 
-  if (updateChanFlag && millis() > cnt+1000){
+  if (updateChanFlag && (millis() > cnt+UPDATING_DELAY)){
     updateUIFlag=true;
     updateChanFlag=false;
     saveData();
