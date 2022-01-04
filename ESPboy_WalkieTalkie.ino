@@ -43,7 +43,8 @@ float LPDchannel[70]={
 enum  TR_STATE {MODULE_TRANSMIT, MODULE_RECEIVE} TRstate = MODULE_RECEIVE;
 enum  CR_STATE {CR_YES, CR_NO} CRstate = CR_NO;
 bool updateChanFlag = true;
-bool updateUIFlag = true; 
+bool updateVolFlag = true;
+bool updateUIFlag = true;
 
 ESPboyInit myESPboy;
 SoftwareSerial ESerial(MODULE_RX, MODULE_TX);
@@ -86,9 +87,12 @@ void drawUI(){
 
   myESPboy.tft.setTextSize(1);
 
+  if (updateVolFlag) myESPboy.tft.setTextColor(TFT_LIGHTGREY);
+  else myESPboy.tft.setTextColor(drawColor);
   messString = "VOL  ";
   for (uint8_t i=0; i<dataStr.vol; i++) messString += "|";
   myESPboy.tft.drawString (messString, 0, 0);
+  myESPboy.tft.setTextColor(drawColor);
 
   if (CRstate == CR_YES){
     messString = "RSSI ";
@@ -241,24 +245,29 @@ void loop() {
   }
 
 
-  if (myESPboy.getKeys()&PAD_UP) {dataStr.chan++; if (dataStr.chan>69)dataStr.chan=1; updateUIFlag=true; updateChanFlag=true; cnt = millis(); delay(100);}
-  if (myESPboy.getKeys()&PAD_DOWN) {dataStr.chan--; if (dataStr.chan<1)dataStr.chan=69; updateUIFlag=true; updateChanFlag=true; cnt = millis(); delay(100);}
+  if (myESPboy.getKeys()&PAD_UP)   {dataStr.chan++; if (dataStr.chan>69)dataStr.chan=1; updateChanFlag=true; updateUIFlag = true; cnt = millis(); delay(100);}
+  if (myESPboy.getKeys()&PAD_DOWN) {dataStr.chan--; if (dataStr.chan<1)dataStr.chan=69; updateChanFlag=true; updateUIFlag = true; cnt = millis(); delay(100);}
 
-  if (myESPboy.getKeys()&PAD_RIGHT && dataStr.vol<8){dataStr.vol++; updateUIFlag=true; delay(100);} 
-  if (myESPboy.getKeys()&PAD_LEFT && dataStr.vol>0){dataStr.vol--; updateUIFlag=true; delay(100);} 
+  if (myESPboy.getKeys()&PAD_RIGHT && dataStr.vol<8){dataStr.vol++; updateVolFlag=true; updateUIFlag = true; cnt = millis(); delay(100);} 
+  if (myESPboy.getKeys()&PAD_LEFT  && dataStr.vol>0){dataStr.vol--; updateVolFlag=true; updateUIFlag = true; cnt = millis(); delay(100);} 
+
+  if (updateVolFlag && (millis() > cnt+UPDATING_DELAY)){
+    moduleSetVol(dataStr.vol);
+    updateVolFlag=false;
+    updateUIFlag = true;
+  }
 
   if (updateChanFlag && (millis() > cnt+UPDATING_DELAY)){
-    updateUIFlag=true;
-    updateChanFlag=false;
     saveData();
-    moduleSetVol(dataStr.vol);
     moduleSetFreq(LPDchannel[dataStr.chan]);
+    updateChanFlag=false;
+    updateUIFlag = true;
   }
 
   if (updateUIFlag){
-    updateUIFlag=false;
-    drawUI();
+    drawUI(); 
+    updateUIFlag = false;
   }
-  
+
   delay(100);
 }
