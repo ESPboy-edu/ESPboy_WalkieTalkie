@@ -246,12 +246,13 @@ void loop() {
     updateUIFlag = true;
   };  
 
-  if ((myESPboy.getKeys()&PAD_LFT || myESPboy.getKeys()&PAD_RGT || myESPboy.getKeys()&PAD_ACT || myESPboy.getKeys()&PAD_ESC) && TRstate == MODULE_RECEIVE){
-    TRstate = MODULE_TRANSMIT;
-    CRstate = CR_NO;
-    myESPboy.mcp.digitalWrite(PPT_PIN, LOW);
-    updateUIFlag = true;
-  }
+  if(CRstate == CR_NO)
+    if ((myESPboy.getKeys()&PAD_LFT || myESPboy.getKeys()&PAD_RGT || myESPboy.getKeys()&PAD_ACT || myESPboy.getKeys()&PAD_ESC) && TRstate == MODULE_RECEIVE){
+      TRstate = MODULE_TRANSMIT;
+      CRstate = CR_NO;
+      myESPboy.mcp.digitalWrite(PPT_PIN, LOW);
+      updateUIFlag = true;
+    }
     
   if (!(myESPboy.getKeys()&PAD_LFT || myESPboy.getKeys()&PAD_RGT || myESPboy.getKeys()&PAD_ACT || myESPboy.getKeys()&PAD_ESC) && TRstate == MODULE_TRANSMIT){
     TRstate = MODULE_RECEIVE;
