@@ -200,19 +200,35 @@ bool checkSerial(){
 }
 
 
-void setup() {
- myESPboy.begin("Walkie-Talkie");
- EEPROM.begin(sizeof(dataStr));
- Serial.begin(115200); Serial.println();
- ESerial.begin(9600);
- 
- myESPboy.mcp.pinMode(PPT_PIN, OUTPUT);
- myESPboy.mcp.digitalWrite(PPT_PIN, HIGH);
- myESPboy.mcp.pinMode(CARRIER_PIN, INPUT); 
- delay(300);
+void setTailTone(){
+  String toSend="";
+  toSend+="AT+SETTAIL=1";
+  toSend+="\r\n";
+  ESerial.print(toSend);
+  delay(100);
+  if (checkSerial()){
+    myESPboy.tft.fillScreen(TFT_BLACK);
+    myESPboy.tft.setTextColor(TFT_RED);
+    myESPboy.tft.drawString(F("Tone update fail"), 15,120);
+    delay(1000);
+  }
+}
 
- loadData();
- moduleInit();
+
+void setup() {
+  myESPboy.begin("Walkie-Talkie");
+  EEPROM.begin(sizeof(dataStr));
+  Serial.begin(115200); Serial.println();
+  ESerial.begin(9600);
+ 
+  myESPboy.mcp.pinMode(PPT_PIN, OUTPUT);
+  myESPboy.mcp.digitalWrite(PPT_PIN, HIGH);
+  myESPboy.mcp.pinMode(CARRIER_PIN, INPUT); 
+  delay(300);
+
+  loadData();
+  moduleInit();
+  setTailTone();
 }
 
 
