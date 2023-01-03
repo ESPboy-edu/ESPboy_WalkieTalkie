@@ -39,7 +39,7 @@ You can buy this module ready-made or make it yourself.
 1.6
 [antenna](https://aliexpress.ru/wholesale?SearchText=antenna+UHF)
 
-**NOTES:
+**NOTES:**
 - take into account connectors to fit one to other (antenna connector on the board and antenna connector on the antenna itself)
 - take into account the length of the antenna, the optimal length (for the best perfomance/range) should be 
 1xY; 1/2xY; 1/4xY; 1/8xY where Y = 300/Frequency (longer antenna - better signal).
@@ -76,7 +76,7 @@ SA868 17 (TXD) -> ESPboy MI (GPIO12/D6)
 
 SA868 18 (MIC) -> MAX9814 OUT
 
-**NOTES:
+**NOTES:**
 - connect ESPboy VSS and ESPboy GND to MAX9814board (VCC and GND) and LTK5128board (Power +5v and ASND)
 - connect antenna ground wire to ESPboy GND
 - connect speaker to LTK5128 amplifier board "Audio output +" and "Audio output -"
@@ -85,7 +85,7 @@ SA868 18 (MIC) -> MAX9814 OUT
 
 ## 3. Upload this firmware
 
-**NOTE: Before compilation, set Arduino IDE settings
+**NOTE: Before compilation, set Arduino IDE settings**
 -  Board:  ESP8266 WeMos D1 mini
 -  CPU frequency: 160Mhz
 
