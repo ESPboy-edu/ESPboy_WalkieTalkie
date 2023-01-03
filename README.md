@@ -16,25 +16,19 @@ You can buy this module ready-made or make it yourself.
 
 
 1.1
-SA868 module
-https://aliexpress.ru/wholesale?SearchText=SA868
+[SA868 module](https://aliexpress.ru/wholesale?SearchText=SA868)
 
-datasheet: 
-https://datasheet.lcsc.com/lcsc/2204251600_G-NiceRF-SA868-U_C3001507.pdf
+[datasheet](https://datasheet.lcsc.com/lcsc/2204251600_G-NiceRF-SA868-U_C3001507.pdf)
 
 1.2
-LTK5128 amplifier board
-https://aliexpress.ru/wholesale?SearchText=LTK5128+amplifier+board
+[LTK5128 amplifier board](https://aliexpress.ru/wholesale?SearchText=LTK5128+amplifier+board)
 
-datasheet: 
-http://www.datasheetcafe.com/ltk5128-datasheet-audio-power-amplifier-chip/?ysclid=lcg57dtr1s522639722
+[datasheet](http://www.datasheetcafe.com/ltk5128-datasheet-audio-power-amplifier-chip/?ysclid=lcg57dtr1s522639722)
 
 1.3
-MAX9814 microphone (i used one with manual gain adjustment)
-https://aliexpress.ru/wholesale?SearchText=MAX9814+microphone&g=y&page=2
+[MAX9814 microphone (i used one with manual gain adjustment)](https://aliexpress.ru/wholesale?SearchText=MAX9814+microphone&g=y&page=2)
 
-datasheet: 
-https://datasheetspdf.com/pdf/644179/MaximIntegratedProducts/MAX9814/1
+[datasheet](https://datasheetspdf.com/pdf/644179/MaximIntegratedProducts/MAX9814/1)
 
 1.4
 [speaker 4Ohm 3w (i used speaker from the old notebook)](https://aliexpress.ru/wholesale?SearchText=speaker+4Ohm+3w&g=y&page=3)
@@ -43,13 +37,12 @@ https://datasheetspdf.com/pdf/644179/MaximIntegratedProducts/MAX9814/1
 [antenna connector](https://aliexpress.ru/wholesale?SearchText=sma+connector)
 
 1.6
-antenna
-https://aliexpress.ru/wholesale?SearchText=antenna+UHF
+[antenna](https://aliexpress.ru/wholesale?SearchText=antenna+UHF)
 - take into account connectors to fit one to other (antenna connector on the board and antenna connector on the antenna itself)
 - take into account the length of the antenna, the optimal length (for the best perfomance/range) should be 
-1*X; 1/2*X; 1/4*X; 1/8*X where X = 300/Frequency (longer antenna - better signal).
+1xY; 1/2xY; 1/4xY; 1/8xY where Y = 300/Frequency (longer antenna - better signal).
 
-example: Let it be working frequency 433mhz. Antenna length = (300/433)*(1/4) = 0,173ì = 17,3ñì
+example: Let it be working frequency 433mhz. Antenna length = (300/433)x(1/4) = 0,173m = 17,3sm
 
 
 
@@ -81,7 +74,7 @@ SA868 17 (TXD) -> ESPboy MI (GPIO12/D6)
 
 SA868 18 (MIC) -> MAX9814 OUT
 
-
+NOTES:
 - connect ESPboy VSS and ESPboy GND to MAX9814board (VCC and GND) and LTK5128board (Power +5v and ASND)
 - connect antenna ground wire to ESPboy GND
 - connect speaker to LTK5128 amplifier board "Audio output +" and "Audio output -"
@@ -91,7 +84,6 @@ SA868 18 (MIC) -> MAX9814 OUT
 ## 3. Upload this firmware
 
 NOTE: Before compilation, set Arduino IDE settings
-
 -  Board:  ESP8266 WeMos D1 mini
 -  CPU frequency: 160Mhz
 
