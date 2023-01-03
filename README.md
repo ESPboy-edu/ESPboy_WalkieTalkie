@@ -48,33 +48,31 @@ example: Let it be working frequency 433mhz. Antenna length = (300/433)x(1/4) = 
 
 
 
-## 2. Connect them to the ESPboy
+## 2. Connect all of them to the ESPboy
 
-Connections SA868 module:
+- SA868 1 (Audio ON) -> ESPboy B6, LTK5128board Mute
 
-SA868 1 (Audio ON) -> ESPboy B6, LTK5128board Mute
+- SA868 3 (Audio output) -> LTK5128board Audio_Input
 
-SA868 3 (Audio output) -> LTK5128board Audio_Input
+- SA868 5 (PTT) -> ESPboy B7 
 
-SA868 5 (PTT) -> ESPboy B7 
+- SA868 6 (PD/PowerDown) -> ESPboy VCC
 
-SA868 6 (PD/PowerDown) -> ESPboy VCC
+- SA868 7 (High/Low power) -> SA868 10 for LowPower or keep opened to HighPower (do NOT connect to VCC!)
 
-SA868 7 (High/Low power) -> SA868 10 for LowPower or keep opened to HighPower (do NOT connect to VCC!)
+- SA868 8 (VBAT) -> ESPboy VCC
 
-SA868 8 (VBAT) -> ESPboy VCC
+- SA868 9 (GND) -> ESPboy GND
 
-SA868 9 (GND) -> ESPboy GND
+- SA868 10 (GND) -> ESPboy GND
 
-SA868 10 (GND) -> ESPboy GND
+- SA868 12 (ANT) -> antenna central wire (do not forget to solder ground antenna wire to GND)
 
-SA868 12 (ANT) -> antenna central wire (do not forget to solder ground antenna wire to GND)
+- SA868 16 (RXD) -> ESPboy SS (GPIO15/D8)
 
-SA868 16 (RXD) -> ESPboy SS (GPIO15/D8)
+- SA868 17 (TXD) -> ESPboy MI (GPIO12/D6)
 
-SA868 17 (TXD) -> ESPboy MI (GPIO12/D6)
-
-SA868 18 (MIC) -> MAX9814 OUT
+- SA868 18 (MIC) -> MAX9814 OUT
 
 **NOTES:**
 - connect ESPboy VSS and ESPboy GND to MAX9814board (VCC and GND) and LTK5128board (Power +5v and ASND)
