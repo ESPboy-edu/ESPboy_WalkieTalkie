@@ -47,24 +47,39 @@ https://aliexpress.ru/wholesale?SearchText=antenna+UHF
 - take into account connectors to fit one to other (antenna connector on the board and antenna connector on the antenna itself)
 - take into account the length of the antenna, the optimal length (for the best perfomance/range) should be 
 1*X; 1/2*X; 1/4*X; 1/8*X where X = 300/Frequency (longer antenna - better signal).
-example: Let it be working frequency 433mhz. Antenna length = (300/433)*(1/4) = 0,173μ = 17,3ρμ
+
+example: Let it be working frequency 433mhz. Antenna length = (300/433)*(1/4) = 0,173Γ¬ = 17,3Γ±Γ¬
 
 
 
 ## 2. Connect them to the ESPboy
-Connections SA868 module
+
+Connections SA868 module:
+
 SA868 1 (Audio ON) -> ESPboy B6, LTK5128board Mute
+
 SA868 3 (Audio output) -> LTK5128board Audio_Input
+
 SA868 5 (PTT) -> ESPboy B7 
+
 SA868 6 (PD/PowerDown) -> ESPboy VCC
+
 SA868 7 (High/Low power) -> SA868 10 for LowPower or keep opened to HighPower (do NOT connect to VCC!)
+
 SA868 8 (VBAT) -> ESPboy VCC
+
 SA868 9 (GND) -> ESPboy GND
+
 SA868 10 (GND) -> ESPboy GND
+
 SA868 12 (ANT) -> antenna central wire (do not forget to solder ground antenna wire to GND)
+
 SA868 16 (RXD) -> ESPboy SS (GPIO15/D8)
+
 SA868 17 (TXD) -> ESPboy MI (GPIO12/D6)
+
 SA868 18 (MIC) -> MAX9814 OUT
+
 
 - connect ESPboy VSS and ESPboy GND to MAX9814board (VCC and GND) and LTK5128board (Power +5v and ASND)
 - connect antenna ground wire to ESPboy GND
