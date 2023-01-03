@@ -18,28 +18,29 @@ You can buy this module ready-made or make it yourself.
 1.1
 SA868 module
 https://aliexpress.ru/wholesale?SearchText=SA868
+
 datasheet: 
 https://datasheet.lcsc.com/lcsc/2204251600_G-NiceRF-SA868-U_C3001507.pdf
 
 1.2
 LTK5128 amplifier board
 https://aliexpress.ru/wholesale?SearchText=LTK5128+amplifier+board
+
 datasheet: 
 http://www.datasheetcafe.com/ltk5128-datasheet-audio-power-amplifier-chip/?ysclid=lcg57dtr1s522639722
 
 1.3
 MAX9814 microphone (i used one with manual gain adjustment)
 https://aliexpress.ru/wholesale?SearchText=MAX9814+microphone&g=y&page=2
+
 datasheet: 
 https://datasheetspdf.com/pdf/644179/MaximIntegratedProducts/MAX9814/1
 
 1.4
-speaker 4Ohm 3w (i used speaker from the old notebook)
-https://aliexpress.ru/wholesale?SearchText=speaker+4Ohm+3w&g=y&page=3
+[speaker 4Ohm 3w (i used speaker from the old notebook)](https://aliexpress.ru/wholesale?SearchText=speaker+4Ohm+3w&g=y&page=3)
 
 1.5
-antenna connector
-https://aliexpress.ru/wholesale?SearchText=sma+connector
+[antenna connector](https://aliexpress.ru/wholesale?SearchText=sma+connector)
 
 1.6
 antenna
